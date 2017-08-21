@@ -7,6 +7,10 @@
 <body>
 <canvas id="pwa-view" width="1000px" height="1000px">
 </canvas>
+<script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
 
 <script type="application/javascript">
     //    var c = document.getElementById("pwa-view");
@@ -15,12 +19,6 @@
     var canvas = document.getElementById('pwa-view');
     var ctx = canvas.getContext('2d');
 
-    var bitMatrix = [
-        ["#FF0000","#FF0000","#FF0000","#FF0000"],
-        ["#FF0000","#33ffe2","#FF0000","#FF0000"],
-        ["#FF0000","#FF0000","#FF0000","#FF0000"],
-        ["#1fffe1","#ff5d1a","#FF0000","#FF0000"]
-    ];
 
 
     function drawMatrix(bitMatrix, xPosition, yPosition, xPixel, yPixel){
@@ -40,15 +38,30 @@
                 if (j !==0) {
                     xTemp = xTemp+squareX+1;
                 }
-                ctx.fillStyle=bitMatrix[i][j];
+                ctx.fillStyle="#"+bitMatrix[i][j];
                 ctx.fillRect(xTemp, y, squareX, squareY);
             }
         }
     }
 
+    function reloadImg(){
+        $.ajax({
+            method: "GET",
+            url: "/data",
+        })
+            .done(function( data ) {
+                console.log(data);
+                drawMatrix(data, 1, 10, 10, 10);
+            });
+    }
+
+    setInterval(reloadImg,500);
 
 
-    drawMatrix(bitMatrix, 1, 10, 10, 10);
+
+
 </script>
+
+
 </body>
 </html>

@@ -1,5 +1,6 @@
 var restify = require('restify');
 var robot = require("robotjs");
+var watershed = require('watershed');
 const fs = require('fs');
 
 function pixelWebView(req, res, next) {
@@ -22,12 +23,12 @@ function pixelWebView(req, res, next) {
 
 function pixelData(req, res, next) {
     var mousePos = robot.getMousePos();
-    var img = robot.screen.capture(mousePos.x, mousePos.y, 10, 10);
+    var img = robot.screen.capture(mousePos.x, mousePos.y, 50, 50);
     var response = [];
 
-    for (var i =0;i<img.width;i++){
+    for (var i =0;i<img.height;i++){
         var item = [];
-        for (var j=0;j<img.height;j++){
+        for (var j=0;j<img.width;j++){
             var colorHex = img.colorAt(i, j);
             item.push(colorHex);
         }
@@ -35,14 +36,17 @@ function pixelData(req, res, next) {
     }
     res.send(response);
 
-
     next();
 }
+
+
 
 var server = restify.createServer();
 
 server.get('/', pixelWebView);
 server.get('/data', pixelData);
+
+
 
 
 server.listen(8080, function() {
