@@ -5,6 +5,50 @@
     <title>Pixel Web View</title>
 </head>
 <body>
+<canvas id="pwa-view" width="1000px" height="1000px">
+</canvas>
 
+<script type="application/javascript">
+    //    var c = document.getElementById("pwa-view");
+    //    var ctx = c.getContext("2d");
+
+    var canvas = document.getElementById('pwa-view');
+    var ctx = canvas.getContext('2d');
+
+    var bitMatrix = [
+        ["#FF0000","#FF0000","#FF0000","#FF0000"],
+        ["#FF0000","#33ffe2","#FF0000","#FF0000"],
+        ["#FF0000","#FF0000","#FF0000","#FF0000"],
+        ["#1fffe1","#ff5d1a","#FF0000","#FF0000"]
+    ];
+
+
+    function drawMatrix(bitMatrix, xPosition, yPosition, xPixel, yPixel){
+        var squareX = xPixel;
+        var squareY = yPixel;
+        var x =xPosition;
+        var y =yPosition;
+
+        for (var i =0; i<bitMatrix.length;i++){
+
+            if (i !==0) {
+                y = y+squareY+1;
+            }
+
+            var xTemp = x;
+            for (var j=0; j<bitMatrix[i].length;j++){
+                if (j !==0) {
+                    xTemp = xTemp+squareX+1;
+                }
+                ctx.fillStyle=bitMatrix[i][j];
+                ctx.fillRect(xTemp, y, squareX, squareY);
+            }
+        }
+    }
+
+
+
+    drawMatrix(bitMatrix, 1, 10, 10, 10);
+</script>
 </body>
 </html>
